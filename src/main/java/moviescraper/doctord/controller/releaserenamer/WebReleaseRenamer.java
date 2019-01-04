@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.csv.CSVFormat;
@@ -23,8 +24,17 @@ public class WebReleaseRenamer extends ReleaseRenamer {
 
 	@Override
 	public String getCleanName(String filename) {
-		String cleanFileName = filename.toLowerCase();
-		cleanFileName = replaceSeperatorsWithSpaces(cleanFileName);
+		String cleanFileName = filename.replaceAll("-|_", "").toLowerCase();
+
+		String pattern = "(abp|adn|chn|ebod|mide|ipx|ipz|pppd|wanz|wat)(-|)\\d\\d\\d";
+		Pattern r = Pattern.compile(pattern);
+		Matcher m = r.matcher(cleanFileName);
+		if (m.find( )) {
+			cleanFileName = m.group(0);
+		} else {
+			cleanFileName = "error";
+		}
+
 		/*
 		 * remove things from the filename which are usually not part of the
 		 * scene / movie name such as par2, xvid, divx, etc

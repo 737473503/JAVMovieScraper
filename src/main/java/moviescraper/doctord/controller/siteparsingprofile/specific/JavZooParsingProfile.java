@@ -124,7 +124,7 @@ public class JavZooParsingProfile extends SiteParsingProfile implements Specific
 
 	@Override
 	public Set scrapeSet() {
-		Element setElement = document.select("div.container p:contains(Series:) ~ p a").first();
+		Element setElement = document.select("div.container p:contains(系列:) ~ p a").first();
 		if (setElement != null) {
 			return new Set(setElement.text().trim());
 		} else
@@ -144,11 +144,12 @@ public class JavZooParsingProfile extends SiteParsingProfile implements Specific
 
 	@Override
 	public ReleaseDate scrapeReleaseDate() {
-		Element releaseDateElement = document.select("div.container p:contains(Release Date:), div.container p:contains(發行日期:)").first();
+		Element releaseDateElement = document.select("div.container p:contains(Release Date:), div.container p:contains(发行时间:)").first();
 		if (releaseDateElement != null) {
 			String releaseDateText = releaseDateElement.text().trim();
 			releaseDateText = releaseDateText.replace("Release Date:", "");
 			releaseDateText = releaseDateText.replace("發行日期:", "");
+			releaseDateText = releaseDateText.replace("发行时间:", "");
 			if (releaseDateText != null && releaseDateText.length() > 4)
 				return new ReleaseDate(releaseDateText.trim());
 		}
@@ -175,8 +176,13 @@ public class JavZooParsingProfile extends SiteParsingProfile implements Specific
 
 	@Override
 	public Plot scrapePlot() {
-		//This type of info doesn't exist on JavZoo
-		return Plot.BLANK_PLOT;
+        Element idElement = document.select("div.container p:contains(识别码:)").first();
+        if (idElement != null) {
+            String idText = idElement.text().trim();
+            idText = idText.replaceFirst(Pattern.quote("识别码: "), "");
+            return new Plot(idText);
+        } else
+			return Plot.BLANK_PLOT;
 	}
 
 	@Override
@@ -187,11 +193,11 @@ public class JavZooParsingProfile extends SiteParsingProfile implements Specific
 
 	@Override
 	public Runtime scrapeRuntime() {
-		Element runtimeElement = document.select("div.container p:contains(Length:)").first();
+		Element runtimeElement = document.select("div.container p:contains(长度:)").first();
 		if (runtimeElement != null) {
 			String lengthText = runtimeElement.text().trim();
-			lengthText = lengthText.replaceFirst(Pattern.quote("Length: "), "");
-			lengthText = lengthText.replaceFirst(Pattern.quote("min"), "");
+			lengthText = lengthText.replaceFirst(Pattern.quote("长度: "), "");
+			lengthText = lengthText.replaceFirst(Pattern.quote("分钟"), "");
 			if (lengthText.length() > 0) {
 				return new Runtime(lengthText);
 			}
@@ -237,10 +243,10 @@ public class JavZooParsingProfile extends SiteParsingProfile implements Specific
 
 	@Override
 	public ID scrapeID() {
-		Element idElement = document.select("div.container p:contains(ID:)").first();
+		Element idElement = document.select("div.container p:contains(识别码:)").first();
 		if (idElement != null) {
 			String idText = idElement.text().trim();
-			idText = idText.replaceFirst(Pattern.quote("ID: "), "");
+			idText = idText.replace("识别码: ", "");
 			return new ID(idText);
 		} else
 			return ID.BLANK_ID;
@@ -289,11 +295,11 @@ public class JavZooParsingProfile extends SiteParsingProfile implements Specific
 
 	@Override
 	public ArrayList<Director> scrapeDirectors() {
-		Element directorElement = document.select("div.row.movie p:contains(Director:)").first();
+		Element directorElement = document.select("div.row.movie p:contains(导演:)").first();
 		if (directorElement != null) {
 			ArrayList<Director> directorList = new ArrayList<>(1);
 			String directorNameText = directorElement.text().trim();
-			directorNameText = directorNameText.replaceFirst(Pattern.quote("Director: "), "");
+			directorNameText = directorNameText.replaceFirst(Pattern.quote("导演: "), "");
 			directorList.add(new Director(directorNameText, null));
 			return directorList;
 		} else
@@ -302,10 +308,10 @@ public class JavZooParsingProfile extends SiteParsingProfile implements Specific
 
 	@Override
 	public Studio scrapeStudio() {
-		Element studioElement = document.select("div.row.movie p:contains(Studio:) ~ p a").first();
+		Element studioElement = document.select("div.row.movie p:contains(发行商:) ~ p a").first();
 		if (studioElement != null) {
 			String studioText = studioElement.text().trim();
-			studioText = studioText.replaceFirst(Pattern.quote("Studio: "), "");
+			studioText = studioText.replaceFirst(Pattern.quote("发行商: "), "");
 			return new Studio(studioText);
 		} else
 			return Studio.BLANK_STUDIO;
@@ -320,7 +326,7 @@ public class JavZooParsingProfile extends SiteParsingProfile implements Specific
 		URLCodec codec = new URLCodec();
 		try {
 			String fileNameURLEncoded = codec.encode(fileNameNoExtension);
-			String searchTerm = "http://www.javdog.com/" + siteLanguageToScrape + "/search/" + fileNameURLEncoded;
+			String searchTerm = "https://avmoo.xyz/" + "cn" + "/search/" + fileNameURLEncoded;
 
 			return searchTerm;
 
