@@ -197,7 +197,6 @@ public class ScrapeAmalgamatedMovieWorker extends SwingWorker<Void, Map<SitePars
 					self.publish(resultToPublish);
 					self.progress = amtOfProgressFinal + self.progress;
 					self.setProgress(self.progress);
-					System.out.println("Scraping complete of siteScraper = " + siteScraper);
 					self.runningWorkers.remove(siteScraper);
 				}
 			};

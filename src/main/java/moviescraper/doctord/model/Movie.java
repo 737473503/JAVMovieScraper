@@ -484,7 +484,6 @@ public class Movie {
 				IIOImage image = new IIOImage((RenderedImage) posterToSaveToDisk.getThumbImage(), null, null);
 
 				if (writePoster && posterToSaveToDisk.isModified()) {
-					System.out.println("Writing poster to " + posterFile);
 					try (FileImageOutputStream posterFileOutput = new FileImageOutputStream(posterFile);) {
 						writer.setOutput(posterFileOutput);
 						writer.write(null, image, iwp);
@@ -501,7 +500,6 @@ public class Movie {
 						FileDownloaderUtilities.writeURLToFile(posterToSaveToDisk.getThumbURL(), currentlySelectedFolderJpgFile, posterToSaveToDisk.getReferrerURL());
 					} else {
 						if (!currentlySelectedFolderJpgFile.exists() || (currentlySelectedFolderJpgFile.exists() && writePosterIfAlreadyExists)) {
-							System.out.println("Writing folder to " + currentlySelectedFolderJpgFile);
 							try (FileImageOutputStream folderFileOutput = new FileImageOutputStream(currentlySelectedFolderJpgFile);) {
 								writer.setOutput(folderFileOutput);
 								writer.write(null, image, iwp);
@@ -524,7 +522,6 @@ public class Movie {
 					fanartToSaveToDisk = preferredFanartToWriteToDisk;
 				else
 					fanartToSaveToDisk = fanart[0];
-				System.out.println("saving out first fanart to " + fanartFile);
 
 				//can save ourself redownloading the image if it's already in memory, but we dont want to reencode the image, so only do this if it's modified
 				if (fanartToSaveToDisk.getImageIconThumbImage() != null && fanartToSaveToDisk.isModified()) {
@@ -543,13 +540,11 @@ public class Movie {
 
 		//write out the extrafanart, if the preference for it is set
 		if (targetFolderForExtraFanartFolderAndActorFolder != null && preferences.getExtraFanartScrapingEnabledPreference()) {
-			System.out.println("Starting write of extra fanart into " + targetFolderForExtraFanartFolderAndActorFolder);
 			writeExtraFanart(targetFolderForExtraFanartFolderAndActorFolder);
 		}
 
 		//write the .actor images, if the preference for it is set
 		if (preferences.getDownloadActorImagesToActorFolderPreference() && targetFolderForExtraFanartFolderAndActorFolder != null) {
-			System.out.println("Writing .actor images into " + targetFolderForExtraFanartFolderAndActorFolder);
 			writeActorImagesToFolder(targetFolderForExtraFanartFolderAndActorFolder);
 		}
 
@@ -771,6 +766,9 @@ public class Movie {
 		//no URL was passed in so we gotta figure it ourselves
 		if (!useURLtoScrapeFrom) {
 			searchResults = siteToParseFrom.getSearchResults(searchString);
+			if (searchResults.length > 1) {
+				System.err.println("may be error");
+			}
 			int levDistanceOfCurrentMatch = 999999; // just some super high number
 			String idFromMovieFile = SiteParsingProfile.findIDTagFromFile(movieFile, siteToParseFrom.isFirstWordOfFileIsID());
 
@@ -811,7 +809,6 @@ public class Movie {
 
 		}
 		if (searchResults != null && searchResults.length > 0 && searchResults[searchResultNumberToUse].getUrlPath().length() > 0) {
-			System.out.println("Scraping this webpage for movie: " + searchResults[searchResultNumberToUse].getUrlPath());
 			//for now just set the movie to the first thing found unless we found a link which had something close to the ID
 			SearchResult searchResultToUse = searchResults[searchResultNumberToUse];
 			Document searchMatch = SiteParsingProfile.downloadDocument(searchResultToUse);

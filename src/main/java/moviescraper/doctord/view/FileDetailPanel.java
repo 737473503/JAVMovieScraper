@@ -721,7 +721,6 @@ public class FileDetailPanel extends JPanel {
 	private void changeEnabledStatusOfPreviousAndNextButtons() {
 		List<Movie> movieList = guiMain.getMovieToWriteToDiskList();
 
-		System.out.println("Movie Size: " + movieList.size());
 		//no movies to scroll through
 		if (movieList.size() == 0) {
 			nextMovieButton.setEnabled(false);

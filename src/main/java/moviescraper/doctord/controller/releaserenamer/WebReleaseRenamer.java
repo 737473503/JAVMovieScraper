@@ -3,6 +3,7 @@ package moviescraper.doctord.controller.releaserenamer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,10 +27,10 @@ public class WebReleaseRenamer extends ReleaseRenamer {
 	public String getCleanName(String filename) {
 		String cleanFileName = filename.replaceAll("-|_", "").toLowerCase();
 
-		String pattern = "(abp|adn|chn|ebod|mide|ipx|ipz|pppd|wanz|wat)(-|)\\d\\d\\d";
+		String pattern = "(abp|adn|atid|avop|bbi|chn|dasd|ebod|ggg|juy|lxvs|midd|mide|migd|mimk|mixs|iptd|ipx|ipz|pgd|pppd|rbd|shkd|ssni|sspd|wanz|wat)\\d{3}";
 		Pattern r = Pattern.compile(pattern);
 		Matcher m = r.matcher(cleanFileName);
-		if (m.find( )) {
+		if (m.find()) {
 			cleanFileName = m.group(0);
 		} else {
 			cleanFileName = "error";
@@ -75,7 +76,8 @@ public class WebReleaseRenamer extends ReleaseRenamer {
 			//System.out.println(siteNameReplacement);
 		}
 		//Fix up the case and trim it - not needed for search but it just looks better :)
-		cleanFileName = WordUtils.capitalize(cleanFileName).trim();
+		cleanFileName = cleanFileName.toLowerCase().trim();
+
 		return cleanFileName;
 	}
 

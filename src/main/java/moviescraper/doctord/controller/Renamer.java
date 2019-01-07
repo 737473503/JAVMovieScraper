@@ -79,7 +79,6 @@ public class Renamer {
 			newName = path + newName;
 		} else {
 			newName = path + newName + getAppendix() + getPosterFanartTrailerEnder() + dot + extension;
-			System.out.println("Was file, new name = " + newName);
 		}
 
 		//shorten the string if it still doesn't fit

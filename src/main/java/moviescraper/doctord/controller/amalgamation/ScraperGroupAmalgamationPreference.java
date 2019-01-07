@@ -47,7 +47,6 @@ public class ScraperGroupAmalgamationPreference {
 	public LinkedList<DataItemSource> getActiveScrapersUsedInOverallPreference() {
 		LinkedList<DataItemSource> activeScrapers = new LinkedList<>();
 		for (DataItemSource currentItemSource : overallOrdering.getAmalgamationPreferenceOrder()) {
-			System.out.println("currentItemSource = " + currentItemSource + " with disabled = " + currentItemSource.isDisabled());
 			//create a new instance may cause a problem if we depend on local state set in the parsing profile
 			//so I may need to revisit this. I did this because there was a problem with the TMDB scraper saving local state inside itself as it was scraping
 

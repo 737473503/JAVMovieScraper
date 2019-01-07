@@ -51,7 +51,6 @@ public class WriteFileDataAction implements ActionListener {
 							System.out.println("No match for this movie in the array or there was no title filled in; skipping writing");
 							continue;
 						}
-						System.out.println("Writing this movie to file: " + guiMain.movieToWriteToDiskList.get(movieNumberInList).getTitle());
 						if (guiMain.movieToWriteToDiskList != null) {
 							if (guiMain.getPreferences().getRenameMovieFile()) {
 								File oldMovieFile = guiMain.getCurrentlySelectedMovieFileList().get(movieNumberInList);
@@ -62,7 +61,6 @@ public class WriteFileDataAction implements ActionListener {
 								String folderRenameString = MoviescraperPreferences.getFolderRenamerString();
 								Renamer renamer = new Renamer(fileRenameString, folderRenameString, sanitizerString, movie, oldMovieFile);
 								String newMovieFilename = renamer.getNewFileName(oldMovieFile.isDirectory());
-								System.out.println("New Filename : " + newMovieFilename);
 								File newMovieFile = new File(newMovieFilename);
 								/*
 								 * old method

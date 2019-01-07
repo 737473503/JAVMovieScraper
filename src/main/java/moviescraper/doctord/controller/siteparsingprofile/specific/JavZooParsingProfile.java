@@ -3,12 +3,10 @@ package moviescraper.doctord.controller.siteparsingprofile.specific;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
+import moviescraper.doctord.controller.siteparsingprofile.GenreComparator;
 import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -260,6 +258,9 @@ public class JavZooParsingProfile extends SiteParsingProfile implements Specific
 			for (Element currentGenre : genreElements) {
 				genreList.add(new Genre(currentGenre.text().trim()));
 			}
+
+			Collections.sort(genreList, new GenreComparator());
+
 			return genreList;
 		}
 		return new ArrayList<>();

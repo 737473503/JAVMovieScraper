@@ -142,6 +142,10 @@ public class Genre extends MovieDataItem {
 				case "模特儿":
 					weight = 43;
 					break;
+				case "单体作品":
+				case "高画质":
+					weight = 1000;
+					break;
 
 				default:
 					break;
